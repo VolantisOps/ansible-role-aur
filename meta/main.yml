@@ -1,0 +1,14 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: bmcclure
+  description: An Ansible role for Archlinux which installs pacaur and sets up a build user for running it in the future
+  company: Volantis Development
+  license: Apache
+  min_ansible_version: 2.0
+  platforms:
+    - name: Archlinux
+      versions:
+        - all
+  galaxy_tags: []

@@ -1,0 +1,5 @@
+---
+- name: Cleanup pacaur build directory
+  file:
+    path: "~{{ aur_build_user }}/pacaur"
+    state: absent
