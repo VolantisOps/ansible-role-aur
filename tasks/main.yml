@@ -1,6 +1,8 @@
 ---
 - name: Ensure build prerequisites are installed
-  pacman: "name={{ item }} state=installed"
+  pacman:
+    name: "{{ item }}"
+    state: present
   with_items:
     - binutils
     - make
@@ -10,17 +12,16 @@
     - yajl
     - git
     - cower
-  
+
 - name: "Create {{ aur_build_user}} user"
   user:
     name: "{{ aur_build_user }}"
     append: true
     groups: wheel
     state: present
-  register: create_build_user
 
 - name: Check if pacaur is installed
-  command: 'pacman -Qi pacaur'
+  command: 'pacman -Q pacaur'
   failed_when: false
   changed_when: aur_pacaur_check.rc != 0
   register: aur_pacaur_check
@@ -32,7 +33,9 @@
   when: aur_pacaur_check.rc != 0
 
 - name: Install pacaur
-  command: "makepkg PKGBUILD --install --needed --noconfirm" chdir="~{{ aur_build_user }}/pacaur/"
+  command: "makepkg PKGBUILD --install --needed --noconfirm"
+  args:
+    chdir: "~{{ aur_build_user }}/pacaur/"
   become: true
   become_user: "{{ aur_build_user }}"
   notify: Cleanup pacaur build directory
