@@ -27,7 +27,7 @@
   register: aur_pacaur_check
 
 - name: Download pacaur
-  command: "cower -dqf --target=~{{ aur_build_user }}/ pacaur"
+  shell: "cower -dqf --target=$(eval echo ~{{ aur_build_user }}/) pacaur"
   become: true
   become_user: "{{ aur_build_user }}"
   when: aur_pacaur_check.rc != 0
